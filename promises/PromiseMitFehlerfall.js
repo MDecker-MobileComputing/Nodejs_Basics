@@ -1,44 +1,43 @@
 
 
 /**
- * Funktion simuliert einen API-Zugriff (z.B. Web-API oder Auslesen lokaler Sensor), mit dem
- * der die aktuelle Lufttemperatur am Aufenthaltsort des Nutzers zurückgegeben wird.
- * Bei diesem API-Zugriff handelt es sich um eine "potenziell langlaufende Operation".
+ * Function simulating an API request (e.g. a web API or reading a local sensor) that
+ * returns the current air temperature at the user's location.
+ * This API request is a "potentially long-running operation".
  * <br><br>
  *
- * Funktion liefert in 50% der Aufrufe einen Fehler zurück. In Abhängigkeit von einem
- * Zufallsgenerator wird entweder
+ * The function returns an error in 50% of calls. Depending on a random number generator,
+ * either
  *
- * * ein Promise-Objekt zurückgeliefert, bei dem nach einer Sekunde die Callback-Methode
- *   für den Erfolgsfall aufgerufen wird (die Temperatur ist dann immer 5°).
+ * * a Promise object is returned whose success callback is called after one second
+ *   (the temperature is always 5° in that case).
  *
- * * oder ein Promise-Objekt zurückgeliefert, bei dem nach einer halben Sekunde die
- *   Callback-Methode für den Fehlerfall aufgerufen wird.
+ * * or a Promise object is returned whose error callback is called after half a second.
  */
-async function getTemperatur() {
+async function getTemperature() {
 
-  const zufallszahl = Math.random(); // Zufallszahl (gleichverteilt) zwischen 0.0 und 1.0 erzeugen.
+  const randomNumber = Math.random(); // Generate a uniformly distributed random number between 0.0 and 1.0.
 
-  let promise;
+  let promise = null;
 
-  if ( zufallszahl <= 0.5 ) {
+  if ( randomNumber <= 0.7 ) {
 
-    const temperaturObjekt = 5;
+    const temperatureValue = 5;
 
-    promise = new Promise( function(resolveCallback, rejectCallback) {
+    promise = new Promise( function( resolveCallback, rejectCallback ) {
 
       setTimeout(
-        function() { resolveCallback(temperaturObjekt); },
+        function() { resolveCallback( temperatureValue ); },
         1000
       );
     });
 
   } else {
 
-    promise = new Promise(function(resolveCallback, rejectCallback) {
+    promise = new Promise( function( resolveCallback, rejectCallback ) {
 
       setTimeout(
-        function() { rejectCallback("Verbindung zu Server mit Wetterdaten fehlgeschlagen."); },
+        function() { rejectCallback( "Connection to the weather data server failed." ); },
         500
       );
     });
@@ -49,59 +48,59 @@ async function getTemperatur() {
 
 
 /**
- * Naiver Aufruf der Methode `getTemperatur()`, so als würde es sich um eine
- * "normale" (nicht-asynchrone) Methode handeln.
+ * Naive call to the `getTemperatur()` method, as if it were a
+ * "normal" (non-asynchronous) method.
  */
-function main_naiv() {
+function mainNaive() {
 
-  const temperatur = getTemperatur();
+  const temperature = getTemperature();
 
-  console.log(`\nTemperatur: ${temperatur} Grad Celsius\n`);
+  console.log( `\nTemperature: ${temperature} degrees Celsius\n` );
 }
 
 
 /**
- * Aufruf der asynchronen Methode `getTemperatur()`, Promise-Objekt wird mit
- * `then()` und `catch()` ausgewertet.
+ * Call to the asynchronous `getTemperature()` method; the Promise
+ * object is evaluated with `then()` and `catch()`.
  */
-async function main_then() {
+async function mainThen() {
 
-  const temperaturPromise = getTemperatur();
+  const temperaturePromise = getTemperature();
 
-  temperaturPromise.then(function(temperaturResolved) {
+  temperaturePromise.then( function(resolvedTemperature ) {
 
-    console.log(`\nTemperatur: ${temperaturResolved} Grad Celsius\n`);
+    console.log( `\nTemperature: ${resolvedTemperature} degrees Celsius\n` );
 
-  }).catch(function(fehlerObjekt) {
+  }).catch( function( errorValue ) {
 
-    console.log(`\nFehler aufgetreten: ${fehlerObjekt}\n`);
+    console.log( `\nAn error occurred: ${errorValue}\n` );
   });
 }
 
 
 /**
- * Aufruf der asynchronen Methode `getTemperatur()` mit `await`, für Fehlerbehandlung
- * wird ein `try`-`catch`-Block verwendet.
+ * Call to the asynchronous `getTemperature()` method with `await`;
+ * a `try`-`catch` block is used for error handling.
  */
-async function main_await() {
+async function mainAwait() {
 
   try {
 
-    const temperaturResolved = await getTemperatur();
+    const resolvedTemperature = await getTemperature();
 
-    console.log(`\nTemperatur: ${temperaturResolved} Grad Celsius\n`);
+    console.log( `\nTemperature: ${resolvedTemperature} degrees Celsius\n` );
 
-  } catch (fehlerObjekt) {
+  } catch ( errorValue ) {
 
-    console.log(`\nFehler aufgetreten: ${fehlerObjekt}\n`);
+    console.log( `\nAn error occurred: ${errorValue}\n` );
   }
 }
 
 
 // **********************************************************************************************************************************
 
-//main_naiv();
+//mainNaive();
 
-//main_then();
+//mainThen();
 
-main_await();
+mainAwait();
