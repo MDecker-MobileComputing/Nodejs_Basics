@@ -41,7 +41,7 @@ async function getWindSpeed() {
 function calculatePerceivedTemperature( temperature, windSpeed ) {
 
     const airTemperature = temperature;
-    const windFactor = Math.pow( windSpeed, 0.16 );
+    const windFactor     = Math.pow( windSpeed, 0.16 );
 
     const perceivedTemperature =
             13.12 + 0.6215 * airTemperature + ( 0.3965 * airTemperature - 11.37 ) * windFactor;
@@ -119,7 +119,7 @@ async function displayTemperatureAndWindSpeed() {
         const windSpeedPromise = getWindSpeed();
         return windSpeedPromise;
 
-    }).then( (resolvedWindSpeed) => {
+    }).then( ( resolvedWindSpeed ) => {
 
         console.log( `Wind speed: ${resolvedWindSpeed} km/h\n` );
     });
