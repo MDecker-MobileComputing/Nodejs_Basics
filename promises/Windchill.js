@@ -54,14 +54,14 @@ function calculatePerceivedTemperature( temperature, windSpeed ) {
 // Calculation of the perceived temperature _without_ `await`
 async function perceivedTemperature1() {
 
-        const temperature = getTemperature();
-        console.log( `\nTemperature: ${temperature} degrees Celsius` );
+    const temperature = getTemperature();
+    console.log( `\nTemperature: ${temperature} degrees Celsius` );
 
-        const windSpeed = getWindSpeed();
-        console.log( `Wind speed: ${windSpeed} km/h\n` );
+    const windSpeed = getWindSpeed();
+    console.log( `Wind speed: ${windSpeed} km/h\n` );
 
-        //const perceivedTemperature = this.calculatePerceivedTemperature(temperature, windSpeed);
-        //console.log(`=> Perceived temperature: ${temperature} ° Celsius\n`);
+    //const perceivedTemperature = this.calculatePerceivedTemperature(temperature, windSpeed);
+    //console.log(`=> Perceived temperature: ${temperature} ° Celsius\n`);
 }
 
 
